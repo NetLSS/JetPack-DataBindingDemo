@@ -8,5 +8,5 @@ class MainViewModel : ViewModel() {
 
     val dollarValue: MutableLiveData<String> = MutableLiveData()
     // viewModel 과 ui 컨트롤러 모두 변경 할 수 있도록 Mutable 로 선언
-    private var result: MutableLiveData<Float> = MutableLiveData()
+    var result: MutableLiveData<Float> = MutableLiveData()
 }
