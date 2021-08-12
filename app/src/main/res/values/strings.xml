@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DataBindingDemo</string>
+    <string name="mainfragment">MainFragment</string>
+    <string name="convert">Convert</string>
+    <string name="no_value">No Value</string>
+</resources>
