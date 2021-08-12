@@ -32,21 +32,6 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-
-        val resultObserver = Observer<Float> { result ->
-            binding.resultText.text = result.toString()
-        }
-
-        viewModel.getResult().observe(viewLifecycleOwner, resultObserver)
-
-
-        binding.convertButton.setOnClickListener {
-            if (binding.dollarText.text.isNotEmpty()) {
-                viewModel.setAmount(binding.dollarText.text.toString())
-            } else {
-                binding.resultText.text = getString(R.string.no_value)
-            }
-        }
     }
 
 }
