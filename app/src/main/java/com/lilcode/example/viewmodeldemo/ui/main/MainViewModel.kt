@@ -9,4 +9,14 @@ class MainViewModel : ViewModel() {
     val dollarValue: MutableLiveData<String> = MutableLiveData()
     // viewModel 과 ui 컨트롤러 모두 변경 할 수 있도록 Mutable 로 선언
     var result: MutableLiveData<Float> = MutableLiveData()
+
+    fun convertValue() {
+        dollarValue.let {
+            if (!it.value.equals("")) {
+                result.value = it.value?.toFloat()?.times(usd_to_eu_rate)
+            } else {
+                result.value = 0f
+            }
+        }
+    }
 }

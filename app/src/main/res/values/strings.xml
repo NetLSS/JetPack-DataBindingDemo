@@ -3,4 +3,5 @@
     <string name="mainfragment">MainFragment</string>
     <string name="convert">Convert</string>
     <string name="no_value">No Value</string>
+    <string name="input_dollar_hint">달러 값 입력</string>
 </resources>

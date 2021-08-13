@@ -20,11 +20,12 @@
             android:id="@+id/resultText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{safeUnbox(myViewModel.result) == 0.0 ? "Enter value" : String.valueOf(safeUnbox(myViewModel.result)) + " euros"}'
+            android:text='@{safeUnbox(myViewModel.result) == 0.0f ? "Enter value" : String.valueOf(safeUnbox(myViewModel.result)) + " euros"}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="[결과]" />
 
         <EditText
             android:id="@+id/dollarText"
@@ -32,9 +33,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="108dp"
             android:ems="10"
-            android:text="@={myViewModel.dollarValue}"
+            android:hint="@string/input_dollar_hint"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
+            android:text="@={myViewModel.dollarValue}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,10 +48,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="170dp"
+            android:onClick="@{() -> myViewModel.convertValue()}"
             android:text="@string/convert"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <!--
+            이벤트, 리스너 바인딩시 바인딩된 인스턴스 함수에 직접 참조 호출하려면 아래와 같이 한다.
+                android:onClick="@{uiController::convertCurrency}"
+
+            아래와 같이 사용하면 인자를 전달하여 사용할 수 있다. (아래는 인자 미사용이지만 말이다)
+                android:onClick="@{() -> myViewModel.convertValue()}"
+        -->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
