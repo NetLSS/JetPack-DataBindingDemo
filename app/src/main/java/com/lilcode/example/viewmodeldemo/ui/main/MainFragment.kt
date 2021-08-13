@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lilcode.example.viewmodeldemo.BR.myViewModel
 import com.lilcode.example.viewmodeldemo.R
 import com.lilcode.example.viewmodeldemo.databinding.MainFragmentBinding
-
 
 class MainFragment : Fragment() {
 
@@ -35,6 +35,12 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         binding.setVariable(myViewModel, viewModel)
+
+        val dollarValueObserver = Observer<String> {
+            viewModel.convertValue()
+        }
+
+        viewModel.dollarValue.observe(viewLifecycleOwner, dollarValueObserver)
     }
 
 }
