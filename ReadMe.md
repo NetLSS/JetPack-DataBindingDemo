@@ -3,5 +3,31 @@
 - jetpack 뷰 모델 사용 해보기
 - 뷰모델을 사용하기 때문에 화면 회전 등 에도 데이터는 보존됨
     - 프레그먼트 재시작 마다 onActivityCreate() 에서 뷰모델 데이터를 가져옴
-  
+
 ## LiveData example
+
+## 바인딩 클래스 생성
+
+- 액티비티 클래스에서 바인딩 클래스 생성
+
+```kotlin
+lateinit var binding: ActivityMainBinding
+
+binding = DataBindingUtil.inflate(
+    inflater, R.layout.activity_main, container, false
+)
+```
+
+- 프래그먼트 에서 바인딩 클래스 생성
+
+```kotlin
+lateinit var binding: MainFragmentBinding
+
+binding = DataBindingUtil.inflate(
+  inflater, R.layout.main_fragment, container, false
+)
+
+binding.setLifecycleOwner(this)
+
+return binding.root
+```
