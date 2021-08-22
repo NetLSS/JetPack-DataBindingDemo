@@ -120,3 +120,12 @@ class MainFragment : Fragment() {
             android:text="@={myViewModel.dollarValue}"
             ... />
 ```
+
+- 리스너 바인딩 해보기
+
+```xml
+        <Button
+            ...
+            android:onClick="@{() -> myViewModel.convertValue()}"
+            .../>
+```
