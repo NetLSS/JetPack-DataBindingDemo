@@ -68,3 +68,35 @@ binding.setLifecycleOwner(this)
 
 return binding.root
 ```
+
+## 데이터 바인딩 변수에 ViewModel 인스턴스 지정 해보기 
+
+```kotlin
+class MainFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = MainFragment()
+    }
+
+    private lateinit var viewModel: MainViewModel
+    private lateinit var binding: MainFragmentBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        binding.lifecycleOwner = this // 프레그먼트가 존재할 때만 바인딩이 남아있어야 하기 떄문에 연결. (소멸시 같이 소멸)
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        binding.setVariable(myViewModel, viewModel) // 데이터 바인딩 변수에 ViewModel 인스턴스 지정 해보기
+
+          ...
+    }
+
+```
