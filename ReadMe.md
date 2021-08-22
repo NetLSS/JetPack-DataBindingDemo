@@ -100,3 +100,23 @@ class MainFragment : Fragment() {
     }
 
 ```
+
+## 바인딩 표현식 사용해보기
+
+- 단방향 바인딩
+```xml
+        <TextView
+            ...
+            android:text='@{safeUnbox(myViewModel.result) == 0.0f ? "Enter value" : String.valueOf(safeUnbox(myViewModel.result)) + " euros"}'
+            ... />
+```
+
+- boxing 된 타입의 경우에는 `safeUnbox()` 로 언박싱 하여 기본타입으로 변경해주어야함
+
+- 양방향 바인딩 (need `MutableLiveData`)
+```xml
+        <EditText
+            ...
+            android:text="@={myViewModel.dollarValue}"
+            ... />
+```
