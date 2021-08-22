@@ -23,6 +23,26 @@ android {
 }
 ```
 
+## Layout 컴포넌트를 root 로 설정 및 data 요소 추가
+ex)
+main_activity.xml
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="myViewModel"
+            type="com.lilcode.example.viewmodeldemo.ui.main.MainViewModel" />
+    </data>
+...
+</layout>
+```
+
+
 ## 바인딩 클래스 생성
 
 - 액티비티 클래스에서 바인딩 클래스 생성
