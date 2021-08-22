@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.lilcode.example.viewmodeldemo.BR.myViewModel
 import com.lilcode.example.viewmodeldemo.R
@@ -32,15 +33,14 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        binding.setVariable(myViewModel, viewModel)
+        activity?.application?.let {
+            // SavedState 뷰모델로 생성 (아래와 같이 팩토리 사용해야함)
+            val factory = SavedStateViewModelFactory(it, this)
+            viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java) // factory 사용
 
-        val dollarValueObserver = Observer<String> {
-            viewModel.convertValue()
+            binding.setVariable(myViewModel, viewModel)
         }
-
-        viewModel.dollarValue.observe(viewLifecycleOwner, dollarValueObserver)
     }
 
 }

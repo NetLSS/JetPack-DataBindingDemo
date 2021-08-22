@@ -62,5 +62,13 @@
                 android:onClick="@{() -> myViewModel.convertValue()}"
         -->
 
+        <EditText
+            android:id="@+id/testEditText"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="test"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
