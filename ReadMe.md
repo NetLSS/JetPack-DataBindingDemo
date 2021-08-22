@@ -3,29 +3,31 @@
 - jetpack 뷰 모델 사용 해보기
 - 뷰모델을 사용하기 때문에 화면 회전 등 에도 데이터는 보존됨
     - 프레그먼트 재시작 마다 onActivityCreate() 에서 뷰모델 데이터를 가져옴
-  
+
 - 이어서 dataBinding 사용 해보기
 
 ## DataBinding 의존성 추가
 
 ```groovy
 plugins {
-  ...
-  id 'kotlin-kapt'
+    ...
+    id 'kotlin-kapt'
 }
 
 android {
-  ...
-  buildFeatures {
-    viewBinding true
-    dataBinding true
-  }
+    ...
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 ```
 
 ## Layout 컴포넌트를 root 로 설정 및 data 요소 추가
+
 ex)
 main_activity.xml
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,14 +36,12 @@ main_activity.xml
 
     <data>
 
-        <variable
-            name="myViewModel"
+        <variable name="myViewModel"
             type="com.lilcode.example.viewmodeldemo.ui.main.MainViewModel" />
     </data>
-...
+    ...
 </layout>
 ```
-
 
 ## 바인딩 클래스 생성
 
@@ -61,7 +61,7 @@ binding = DataBindingUtil.inflate(
 lateinit var binding: MainFragmentBinding
 
 binding = DataBindingUtil.inflate(
-  inflater, R.layout.main_fragment, container, false
+    inflater, R.layout.main_fragment, container, false
 )
 
 binding.setLifecycleOwner(this)
@@ -69,7 +69,7 @@ binding.setLifecycleOwner(this)
 return binding.root
 ```
 
-## 데이터 바인딩 변수에 ViewModel 인스턴스 지정 해보기 
+## 데이터 바인딩 변수에 ViewModel 인스턴스 지정 해보기
 
 ```kotlin
 class MainFragment : Fragment() {
@@ -96,7 +96,7 @@ class MainFragment : Fragment() {
 
         binding.setVariable(myViewModel, viewModel) // 데이터 바인딩 변수에 ViewModel 인스턴스 지정 해보기
 
-          ...
+        ...
     }
 
 ```
@@ -104,28 +104,68 @@ class MainFragment : Fragment() {
 ## 바인딩 표현식 사용해보기
 
 - 단방향 바인딩
+
 ```xml
-        <TextView
-            ...
-            android:text='@{safeUnbox(myViewModel.result) == 0.0f ? "Enter value" : String.valueOf(safeUnbox(myViewModel.result)) + " euros"}'
-            ... />
+
+<TextView...android:text='@{safeUnbox(myViewModel.result) == 0.0f ? "Enter value" : String.valueOf(safeUnbox(myViewModel.result)) + " euros"}'... />
 ```
 
 - boxing 된 타입의 경우에는 `safeUnbox()` 로 언박싱 하여 기본타입으로 변경해주어야함
 
 - 양방향 바인딩 (need `MutableLiveData`)
+
 ```xml
-        <EditText
-            ...
-            android:text="@={myViewModel.dollarValue}"
-            ... />
+
+<EditText...android:text="@={myViewModel.dollarValue}"... />
 ```
 
 - 리스너 바인딩 해보기
 
 ```xml
-        <Button
-            ...
-            android:onClick="@{() -> myViewModel.convertValue()}"
-            .../>
+
+<Button...android:onClick="@{() -> myViewModel.convertValue()}".../>
 ```
+
+## 상태 저장 구현하기
+
+- SavedStateHandle
+- ViewModel 구현 시 생성 파라미터에 SavedStateHandle 추가
+
+```kotlin
+class MainViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+}
+```
+
+```kotlin
+private lateinit var viewModel: MainViewModel
+
+val factory = SavedStateViewModelFactory(activity.application, this)
+viewModel = ViewModelProvider(this, factory).get(MainViewModel::class.java)
+```
+
+## 상태 저장 및 복원
+
+- ViewModel 내부에서 SavedStateHandle 인스턴스 사용.
+- set() 으로 저장
+
+```kotlin
+val NAME_KEY = "Customer Name"
+savedStateHandle.set(NAME_KEY, customerName)
+```
+
+- LiveData 객체 꺼낼 때
+
+```kotlin
+var restoredName: LiveData<String> = savedStateHandle.getLiveData(NAME_KEY)
+```
+
+- 일반 객체 꺼낼 때
+
+```kotlin
+var restoredName: String? = savedStateHandle.get(NAME_KEY)
+```
+
+- 그외 유용한 메서드
+  - contains(String key)
+  - remove(String key)
+  - keys()
